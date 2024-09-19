@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendation</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            overflow: hidden; /* Prevent scrolling */
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #000;
+        }
+        .text-container {
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            z-index: 2; /* Ensure it appears above other content */
+            color: #fff;
+            max-width: 350px; /* Limit width for aesthetics */
+            text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.7);
+        }
+        .text-container h2 {
+            font-size: 2em;
+            margin: 0;
+            line-height: 1.2;
+            color: #fff;
+            font-weight: bold;
+        }
+        .text-container p {
+            font-size: 1.2em;
+            margin: 15px 0;
+            line-height: 1.5;
+        }
+        button {
+            padding: 12px 30px;
+            background-color: #ff0055;
+            border: none;
+            color: white;
+            font-size: 1.2em;
+            cursor: pointer;
+            border-radius: 30px;
+            box-shadow: 0 8px 15px rgba(255, 0, 85, 0.4);
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+        button:hover {
+            background-color: #ff3366;
+            box-shadow: 0 12px 20px rgba(255, 0, 85, 0.6);
+            transform: translateY(-3px);
+        }
+        .spline-iframe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            border: none; /* Removes iframe border */
+            z-index: 1; /* Behind the text */
+        }
+    </style>
+</head>
+<body>
+
+    <div class="text-container">
+        <h2>Bored? Don't Know What to Watch.</h2>
+        <p>Click on the button to get rocking recommendations.</p>
+        <button onclick="window.location.href='/select_movie';">Get Recommendations</button>
+    </div>
+
+    <iframe class="spline-iframe" src='https://my.spline.design/chips-61cc82eb8ee6099ae8bc58227b2db025/' frameborder='0' width='100%' height='100%'></iframe>
+
+    <script>
+        // Redirect to the next page when the button inside the Spline iframe is clicked
+        const iframe = document.querySelector('.spline-iframe');
+        iframe.onload = function() {
+            const iframeDocument = iframe.contentDocument || iframe.contentWindow.document;
+            const button = iframeDocument.querySelector('button'); // Adjust selector if necessary
+            if (button) {
+                button.onclick = function() {
+                    window.location.href = '/select_movie'; // Redirect to the next page
+                };
+            }
+        };
+    </script>
+</body>
+</html>

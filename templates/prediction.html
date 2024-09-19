@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Recommended Movies</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400&display=swap" rel="stylesheet"> <!-- Roboto font -->
+    <style>
+        body {
+            background-color: #141414; /* Dark background similar to Netflix */
+            color: #ffffff; /* White text */
+            font-family: 'Roboto', sans-serif; /* Clean font */
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin: 0;
+            padding: 20px;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 40px; /* Space below the title */
+            font-size: 2.5em; /* Larger title */
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.8); /* Stronger shadow for depth */
+        }
+
+        #movie-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); /* Responsive grid */
+            gap: 20px; /* Space between cards */
+            max-width: 1200px; /* Maximum width for the container */
+            width: 100%; /* Full width */
+            padding: 0 20px; /* Side padding */
+        }
+
+        .card {
+            border-radius: 10px; /* Rounded corners */
+            background: #333; /* Dark gray card background */
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5); /* Softer shadow */
+            transition: transform 0.3s, box-shadow 0.3s; /* Smooth transition */
+            overflow: hidden; /* Prevent overflow */
+            text-decoration: none; /* Remove underline */
+        }
+
+        .card:hover {
+            transform: scale(1.05); /* Slight scale effect on hover */
+            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.7); /* Deeper shadow on hover */
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 300px; /* Fixed height for images */
+            object-fit: cover; /* Cover the area */
+        }
+
+        h2 {
+            font-size: 1.2em; /* Title size */
+            margin: 10px; /* Space around the title */
+            text-align: center; /* Center the title text */
+            color: #e50914; /* Netflix red for title text */
+            text-decoration: none; /* Ensure no underline */
+        }
+    </style>
+</head>
+<body>
+    <h1>Movies Recommended for "{{ movie_title }}"</h1>
+    <div id="movie-container">
+        {% for movie in posters %}
+            <a href="/movie/{{ movie.title }}" class="card">
+                <img class="hero-image" src="{{ movie.poster_url }}" alt="{{ movie.title }} poster"/>
+                <h2>{{ movie.title }}</h2>
+            </a>
+        {% endfor %}
+    </div>
+</body>
+</html>

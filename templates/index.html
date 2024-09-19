@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Movie Recommendations</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/glide.core.min.css') }}">
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+        }
+        .glide__slide {
+            text-align: center;
+        }
+        .glide__slide img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 10px;
+        }
+        .movie-title {
+            margin-top: 10px;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+
+<div class="glide">
+    <div class="glide__track" data-glide-el="track">
+        <ul class="glide__slides">
+            {% for movie in movies %}
+            <li class="glide__slide">
+                <img src="{{ movie.image }}" alt="{{ movie.title }}">
+                <div class="movie-title">{{ movie.title }}</div>
+            </li>
+            {% endfor %}
+        </ul>
+    </div>
+
+    <div class="glide__arrows" data-glide-el="controls">
+        <button class="glide__arrow glide__arrow--left" data-glide-dir="<">«</button>
+        <button class="glide__arrow glide__arrow--right" data-glide-dir=">">»</button>
+    </div>
+</div>
+
+<script src="{{ url_for('static', filename

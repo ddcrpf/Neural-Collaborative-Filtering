@@ -1,7 +1,7 @@
-Flask==3.0.3
-keras==3.4.1
-numpy==2.1.1
-pandas==2.2.2
-Requests==2.32.3
-scikit_learn==1.4.2
-tensorflow==2.17.0
+Flask
+keras
+numpy
+pandas
+Requests
+scikit_learn
+tensorflow

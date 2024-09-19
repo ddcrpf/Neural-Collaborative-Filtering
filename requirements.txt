@@ -5,3 +5,6 @@ pandas
 Requests
 scikit_learn
 tensorflow
+Flask-Session
+keras
+

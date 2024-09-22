@@ -1,3 +1,4 @@
+# Personalised Recommendation system using Neural Collaborative Filtering
 
 
 ### Step 1: Train NCF Model on Movie Ratings
@@ -74,6 +75,4 @@
 - Deployed the app as a web service using Azure App Service.
 - **User Interface**: Users can hover over movie posters, select them, and view 10 recommended movie posters based on the model's predictions.
 
---- 
 
-This version keeps the structure clear while highlighting the most important details of your project.

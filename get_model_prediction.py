@@ -14,33 +14,21 @@ from keras.models import load_model
 
 # Load the pre-trained model through azure blob storage
 from azure.storage.blob import BlobServiceClient
-from keras.models import load_model
 
-# Initialize Azure Blob Storage client
-def download_model(sas_url, download_path):
-    # Check if the model file already exists locally
-    if not os.path.exists(download_path):
-        print("Downloading model...")
-        response = requests.get(sas_url)
-        if response.status_code == 200:
-            # Write the model to the specified download path
-            with open(download_path, 'wb') as file:
-                file.write(response.content)
-            print("Model downloaded successfully.")
-        else:
-            print(f"Failed to download model: {response.status_code} - {response.text}")
-    else:
-        print("Model already exists locally.")
 
-# SAS URL of the model in Azure Blob
-sas_url = 'https://ncfmodel.blob.core.windows.net/model-for-ncf/best_model_ncf.keras?sp=r&st=2024-09-22T19:12:43Z&se=2024-09-23T03:12:43Z&sv=2022-11-02&sr=b&sig=Emo6p5YlAxl5XGrm4UYc9RTuuCnR0THIbcvFx2eTnvg%3D'
-# Local path where the model will be saved
-download_path = './best_model_ncf.keras'
-# Download the model if it's not already available
-download_model(sas_url, download_path)
+Your_Connection_String = "DefaultEndpointsProtocol=https;AccountName=ncfmodel;AccountKey=agKsxKVtG5JrWhS4XSyzoW5huV5kjwgyf54KldtHC4GlWxdHoCufkmrKQb8qgndvqoRdtMT/xHN++AStio3RZA==;EndpointSuffix=core.windows.net"
+
+def download_model_from_blob(container_name, blob_name, download_path):
+    blob_service_client = BlobServiceClient.from_connection_string("Your_Connection_String")
+    blob_client = blob_service_client.get_blob_client(container=container_name, blob=blob_name)
+    with open(download_path, "wb") as download_file:
+        download_file.write(blob_client.download_blob().readall())
+
+# Call this function before loading the model
+download_model_from_blob("model-for-ncf", "best_model_ncf.keras", "best_model_ncf.keras")
 
 # Load the model
-model = load_model(download_path)
+model = load_model("best_model_ncf.keras")
 # model = load_model('best_model_ncf.keras')
 
 

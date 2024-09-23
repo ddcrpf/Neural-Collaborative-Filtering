@@ -8,4 +8,4 @@ tensorflow
 Flask-Session
 keras
 azure-storage-blob
-
+gunicorn

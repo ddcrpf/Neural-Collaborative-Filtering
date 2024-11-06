@@ -1,0 +1,38 @@
+version: 0.2
+
+env:
+  variables:
+    S3_BUCKET: "recommender-system-model-bucket"  # Replace with your S3 bucket name
+    MODEL_FILE: "best_model_ncf.keras"           # Replace with your model file name
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.9                    # Specify the Python version
+    commands:
+      - echo Installing dependencies
+      - pip install -r requirements.txt  # Install app dependencies
+
+  build:
+    commands:
+      - echo Downloading model from S3...
+      - aws s3 cp s3://$S3_BUCKET/$MODEL_FILE ./model.pkl  # Download model from S3
+      - echo Running application tests...
+      - python -m unittest discover tests  # Assuming you have unit tests in a 'tests' folder
+      - echo Build complete.
+
+  post_build:
+    commands:
+      - echo Preparing build artifacts...
+      - mkdir -p output
+      - cp -R * ./output  # Copy all files to the output folder
+      - echo Post-build complete.
+
+artifacts:
+  files:
+    - output/**/*  # Include all files from the output folder in the build artifacts
+  discard-paths: no
+
+cache:
+  paths:
+    - '/root/.cache/pip/**/*'  # Cache pip dependencies for faster builds

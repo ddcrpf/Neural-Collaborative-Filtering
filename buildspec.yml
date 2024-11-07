@@ -2,37 +2,37 @@ version: 0.2
 
 env:
   variables:
-    S3_BUCKET: "recommender-system-model-bucket"  # Replace with your S3 bucket name
-    MODEL_FILE: "best_model_ncf.keras"           # Replace with your actual model file name
+    S3_BUCKET: "recommender-system-model-bucket"  # Correct bucket name
+    MODEL_FILE: "best_model_ncf.keras"           # Correct model file name
 
 phases:
   install:
     runtime-versions:
-      python: 3.9                                # Specify the Python version
+      python: 3.9
     commands:
       - echo Installing dependencies...
-      - pip install -r requirements.txt          # Install app dependencies
+      - pip install -r requirements.txt || { echo 'Dependency installation failed'; exit 1; }
 
   build:
     commands:
       - echo Downloading model from S3...
-      - aws s3 cp s3://$S3_BUCKET/$MODEL_FILE ./best_model_ncf.keras  # Download model from S3
+      - aws s3 cp s3://$S3_BUCKET/$MODEL_FILE ./best_model_ncf.keras || { echo 'S3 download failed'; exit 1; }
       - echo Running application tests...
-      - python -m unittest discover tests        # Run unit tests (optional)
+      - python -m unittest discover tests || { echo 'Tests failed'; exit 1; }
       - echo Build phase complete.
 
   post_build:
     commands:
       - echo Preparing build artifacts...
       - mkdir -p output
-      - cp -R * ./output                         # Copy all files, including the model, to output folder
+      - rsync -av --exclude='./output' ./ ./output || { echo 'Copy to output failed'; exit 1; }
       - echo Post-build phase complete.
 
 artifacts:
   files:
-    - output/**/*                                # Include all files from the output folder in the build artifacts
+    - output/**/*
   discard-paths: no
 
 cache:
   paths:
-    - '/root/.cache/pip/**/*'                    # Cache pip dependencies for faster builds
+    - '/root/.cache/pip/**/*'

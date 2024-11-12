@@ -2,37 +2,25 @@ version: 0.0
 os: linux
 files:
   - source: /output
-    destination: /var/www/html  # Change this to your target directory
+    destination: /var/www/html
 
 hooks:
   BeforeInstall:
-    - location: /bin/bash
+    - location: scripts/before_install.sh
       timeout: 300
       runas: root
-      script: |
-        echo "Installing dependencies..."
-        yum install -y httpd || apt-get install -y apache2
 
   AfterInstall:
-    - location: /bin/bash
+    - location: scripts/after_install.sh
       timeout: 300
       runas: root
-      script: |
-        echo "Configuring application..."
-        cp /var/www/html/best_model_ncf.keras /app/model/  # Adjust path as needed
 
   ApplicationStart:
-    - location: /bin/bash
+    - location: scripts/application_start.sh
       timeout: 300
       runas: root
-      script: |
-        echo "Starting application..."
-        systemctl start httpd || systemctl start apache2
 
   ValidateService:
-    - location: /bin/bash
+    - location: scripts/validate_service.sh
       timeout: 300
       runas: root
-      script: |
-        echo "Validating service..."
-        systemctl status httpd || systemctl status apache2 || exit 1

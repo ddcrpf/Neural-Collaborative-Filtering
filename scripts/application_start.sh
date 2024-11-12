@@ -1,3 +1,4 @@
 #!/bin/bash
-echo "Starting application..."
-systemctl start httpd || systemctl start apache2
+echo "Starting Flask application..."
+cd /home/ec2-user/flask-app
+nohup python3 app.py > logs/flask_app.log 2>&1 &

@@ -1,3 +1,5 @@
 #!/bin/bash
 echo "Installing dependencies..."
-yum install -y httpd || apt-get install -y apache2
+yum update -y
+yum install -y python3-pip
+pip3 install -r /home/ec2-user/flask-app/requirements.txt

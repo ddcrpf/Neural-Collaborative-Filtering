@@ -11,19 +11,19 @@ phases:
       python: 3.9
     commands:
       - echo "Installing dependencies..."
-      - pip install -r requirements.txt || { echo 'Dependency installation failed'; exit 1; }
+      - pip install -r $CODEBUILD_SRC_DIR/requirements.txt || { echo 'Dependency installation failed'; exit 1; }
 
   build:
     commands:
       - echo "Downloading model from S3..."
-      - aws s3 cp s3://$S3_BUCKET/$MODEL_FILE ./output/best_model_ncf.keras || { echo 'S3 download failed'; exit 1; }
+      - aws s3 cp s3://$S3_BUCKET/$MODEL_FILE $CODEBUILD_SRC_DIR/output/best_model_ncf.keras || { echo 'S3 download failed'; exit 1; }
       - echo "Build phase complete. No tests to run."
 
   post_build:
     commands:
       - echo "Preparing build artifacts..."
-      - mkdir -p output
-      - rsync -av --exclude='./output' ./ ./output || { echo 'Copy to output failed'; exit 1; }
+      - mkdir -p $CODEBUILD_SRC_DIR/output
+      - rsync -av --exclude='./output' $CODEBUILD_SRC_DIR/ $CODEBUILD_SRC_DIR/output || { echo 'Copy to output failed'; exit 1; }
       - echo "Post-build phase complete."
 
 artifacts:

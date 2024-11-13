@@ -3,8 +3,8 @@ set -ex
 
 echo "Starting Flask application on Amazon Linux..."
 
-# Navigate to the application directory
-cd /home/ec2-user/flask-app
+# Navigate to the correct application directory
+cd /home/ec2-user/flask-app/Neural-Collaborative-Filtering
 
 # Kill any existing Flask application process (if running)
 pkill -f app.py || echo "No existing Flask process found."

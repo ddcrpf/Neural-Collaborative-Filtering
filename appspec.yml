@@ -1,7 +1,7 @@
 version: 0.0
 os: linux
 files:
-  - source: /
+  - source: /output/
     destination: /home/ec2-user/flask-app
 
 hooks:
